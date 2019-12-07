@@ -14,7 +14,7 @@ const int INF = numeric_limits<int>::max();
 HelpStudents::HelpStudents(int  N, int  M, int K, vector < pair< pair <int,int> , int > > ways) {
     // IMPLEMENT ME!
     pair <int,int> p;
-    this->K=K-1;
+    this->K=K;
     this->M=M;
     this->N=N;
 
@@ -32,9 +32,8 @@ HelpStudents::HelpStudents(int  N, int  M, int K, vector < pair< pair <int,int> 
 long long int HelpStudents::firstStudent() {
     // IMPLEMENT ME!
     vector<int> costNode;
-    costNode.resize(N);
+
     vector<int> visited;
-    visited.resize(N);
 
     for(int i=0;i<N;i++) {
         visited.push_back(0);
@@ -44,7 +43,7 @@ long long int HelpStudents::firstStudent() {
        costNode.push_back(0);
     }
     int c=costNode[0];
-    cout << c <<"ömvnkbmnklsmbvls" <<endl;
+    
     pq.push(make_pair(0,0));
     while (!pq.empty()) {
         pair<int,int> tmp=pq.top();
@@ -72,7 +71,7 @@ long long int HelpStudents::firstStudent() {
     }
 
     long long int m;
-    m=costNode[K];
+    m=costNode[K-1];
     return m;
 
 

@@ -43,7 +43,7 @@ long long int HelpStudents::firstStudent() {
        costNode.push_back(0);
     }
     int c=costNode[0];
-    
+
     pq.push(make_pair(0,0));
     while (!pq.empty()) {
         pair<int,int> tmp=pq.top();

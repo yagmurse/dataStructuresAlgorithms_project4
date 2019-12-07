@@ -41,8 +41,10 @@ long long int HelpStudents::firstStudent() {
     }
     priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
     for(int i=0;i<N;i++) {
-       costNode.push_back((i==0 ? 0 : INF));
+       costNode.push_back(0);
     }
+    int c=costNode[0];
+    cout << c <<"ömvnkbmnklsmbvls" <<endl;
     pq.push(make_pair(0,0));
     while (!pq.empty()) {
         pair<int,int> tmp=pq.top();
@@ -50,17 +52,22 @@ long long int HelpStudents::firstStudent() {
         int vertex=tmp.second;
         //vertex: tmp.second............. cost:temp.first
         pq.pop();
-        if(visited[vertex] ==0 ) {
-            costNode[vertex] = cost;
+        if(visited[vertex]==1){
+        continue;}
+
+        visited[vertex]=1;
+        costNode[vertex] = cost;
             for (int i = 0; i < (int) vec[vertex].size(); i++) {
                 int v = vec[vertex][i].first;
-                if (visited[v] == 0) {
-                    int c = vec[vertex][i].second + costNode[vec[vertex][i].first];
+                if (visited[v] == 1) {
+                    continue; }
+
+                    int c = vec[vertex][i].second + cost;
                     pq.push(make_pair(c, v));
-                }
-            }
+
+
         }
-        visited[vertex]=1;
+
 
     }
 

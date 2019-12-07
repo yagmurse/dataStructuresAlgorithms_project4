@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 
+
 using namespace std;
 
 
@@ -16,7 +17,11 @@ public:
     long long int thirdStudent();
     long long int fourthStudent();
     long long int fifthStudent();
+    int K;
+    int N;
+    int M;
 
+    vector<vector<pair<int,int>>> vec;
     // YOU CAN ADD YOUR HELPER FUNCTIONS AND MEMBER FIELDS
 
 };

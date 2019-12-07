@@ -7,8 +7,8 @@ Running Status: [SUCCESS/FAIL]
 Notes: Anything you want to say about your code that will be helpful in the grading process.
 */
 #include "HelpStudents.h"
-#include <limits>;
-#include <queue>;
+#include <limits>
+#include <queue>
 using namespace std;
 const int INF = numeric_limits<int>::max();
 HelpStudents::HelpStudents(int  N, int  M, int K, vector < pair< pair <int,int> , int > > ways) {
@@ -20,10 +20,10 @@ HelpStudents::HelpStudents(int  N, int  M, int K, vector < pair< pair <int,int> 
 
     vec.resize(N);
      for(int i=0;i<M;i++) {
-         p.first=ways[i].first.second;
+         p.first=ways[i].first.second-1;
          p.second=ways[i].second;
          vec[(ways[i].first.first)-1].push_back(p);
-         p.first=ways[i].first.first;
+         p.first=ways[i].first.first-1;
          vec[(ways[i].first.second)-1].push_back(p);
  }
 
@@ -32,7 +32,10 @@ HelpStudents::HelpStudents(int  N, int  M, int K, vector < pair< pair <int,int> 
 long long int HelpStudents::firstStudent() {
     // IMPLEMENT ME!
     vector<int> costNode;
+    costNode.resize(N);
     vector<int> visited;
+    visited.resize(N);
+
     for(int i=0;i<N;i++) {
         visited.push_back(0);
     }
@@ -40,33 +43,36 @@ long long int HelpStudents::firstStudent() {
     for(int i=0;i<N;i++) {
        costNode.push_back((i==0 ? 0 : INF));
     }
-    pq.push(make_pair(costNode[0],0));
+    pq.push(make_pair(0,0));
     while (!pq.empty()) {
         pair<int,int> tmp=pq.top();
-        //vertex: tmp.second cost:temp.first
+        int cost=tmp.first;
+        int vertex=tmp.second;
+        //vertex: tmp.second............. cost:temp.first
         pq.pop();
-        visited[tmp.second]=1;
-        for(int i=0;i<(int)vec[tmp.second].size();i++) {
-            int vertex=vec[tmp.second][i].first;
-            int edgeDist=vec[tmp.second][i].second;
-            int cost=edgeDist+costNode[tmp.second];
-            if(cost<costNode[vertex] && visited[vertex] != 1) {
-                costNode[vertex]=cost;
+        if(visited[vertex] ==0 ) {
+            costNode[vertex] = cost;
+            for (int i = 0; i < (int) vec[vertex].size(); i++) {
+                int v = vec[vertex][i].first;
+                if (visited[v] == 0) {
+                    int c = vec[vertex][i].second + costNode[vec[vertex][i].first];
+                    pq.push(make_pair(c, v));
+                }
             }
-            pq.push(make_pair(costNode[vertex],vertex));
-
         }
-    }
+        visited[vertex]=1;
 
     }
 
+    long long int m;
+    m=costNode[K];
+    return m;
 
 
-
-
-
+    }
 long long int HelpStudents::secondStudent() {
     // IMPLEMENT ME!
+
 }
 long long int HelpStudents::thirdStudent() {
     // IMPLEMENT ME!

@@ -139,6 +139,63 @@ long long int HelpStudents::thirdStudent() {
 }
 long long int HelpStudents::fourthStudent() {
     // IMPLEMENT ME!
+    vector<int> nodeVisited;
+    vector<vector<int>> edgeVisited;
+    vector<int> totalCost;
+    for(int i=0;i<N;i++) {
+        totalCost.push_back(0);
+    }
+    edgeVisited.resize(N);
+    for(int i=0;i<N;i++) {
+        int m=(int)vec[i].size();
+        for(int x=0;x<m;x++) {
+           edgeVisited[i].push_back(0);
+        }
+    }
+
+    for(int i=0;i<N;i++) {
+        nodeVisited.push_back(-1);
+    }
+
+    priority_queue<pair<long long int,pair<int,int>>,vector<pair<long long int,pair<int,int>>>,greater<pair<long long int,pair<int,int>>>> pq;
+    pq.push(make_pair(0,make_pair(0,0)));
+
+    while (!pq.empty()) {
+        pair<long long int,pair<int,int>> tmp=pq.top();
+        pair<long long int,pair<int,int>> tmp2;
+
+        pq.pop();
+
+        if(tmp.first==pq.top().first &&  tmp.second.first>pq.top().first) {
+                tmp2=tmp;
+                tmp=pq.top();
+                pq.pop();
+                pq.push(tmp2);
+
+        }
+
+        long long int weight=tmp.first;
+        int vertex=tmp.second.first;
+        int prevVer=tmp.second.second;
+
+        nodeVisited[vertex]=1;
+        totalCost[vertex]+=tmp.first;
+        edgeVisited[prevVer][vertex]=1;
+        for(int i=0;i<(int)vec[vertex].size();i++) {
+            int v=vec[vertex][i].first;
+            if(edgeVisited[v][vertex] == 1 || edgeVisited[vertex][v]==1)
+                continue;
+            long long int c=vec[vertex][i].second;
+
+            pq.push(make_pair(c,make_pair(v,vertex)));
+        }
+
+
+    }
+    return ( nodeVisited[K-1] == -1) ? (-1) : (totalCost[K-1]);
+
+
+
 }
 long long int HelpStudents::fifthStudent() {
     // IMPLEMENT ME!

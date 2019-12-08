@@ -164,6 +164,8 @@ long long int HelpStudents::fourthStudent() {
         vertex=pq.top().second;
         nodeVisited[vertex]=1;
         edgeVisited[prevVer][vertex]=1;
+        edgeVisited[vertex][prevVer]=1;
+
         long long int cost=pq.top().first;
         pq.pop();
         totalCost[vertex]+=cost;
@@ -188,7 +190,7 @@ long long int HelpStudents::fourthStudent() {
             continue;
 
     }
-    return ( nodeVisited[K-1] == -1) ? (-1) : (totalCost[K-1]);
+    return ( nodeVisited[K] == -1) ? (-1) : (totalCost[K]);
 
 }
 

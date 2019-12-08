@@ -15,7 +15,7 @@ const int INF = numeric_limits<int>::max();
 HelpStudents::HelpStudents(int  N, int  M, int K, vector < pair< pair <int,int> , int > > ways) {
     // IMPLEMENT ME!
     pair <int,int> p;
-    this->K=K;
+    this->K=K-1;
     this->M=M;
     this->N=N;
 
@@ -44,7 +44,7 @@ long long int HelpStudents::firstStudent() {
      pq.push(make_pair(0,0));
     while (!pq.empty()) {
         pair<long long int,int> tmp=pq.top();
-        int cost=tmp.first;
+        long long int cost=tmp.first;
         int vertex=tmp.second;
         pq.pop();
         if(visited[vertex]==1)
@@ -56,11 +56,13 @@ long long int HelpStudents::firstStudent() {
                 if (visited[v] == 1)
                     continue;
                 long long int c = vec[vertex][i].second + cost;
+                if(costNode[v]>c) {
                     pq.push(make_pair(c, v));
+                costNode[vertex] = cost; }
             }
     }
 
-    return costNode[K-1];
+    return costNode[K];
 
 
     }
@@ -92,16 +94,48 @@ long long int HelpStudents::secondStudent() {
 
             long long  int c =vec[vertex][i].second;
             pq.push(make_pair(max(c,edge), v));
+            minEdge[v]=min(minEdge[v],edge);
         }
 
     }
 
-    return minEdge[K-1];
+    return minEdge[K];
 
 
 }
 long long int HelpStudents::thirdStudent() {
     // IMPLEMENT ME!
+    vector<long long int> minNumEdge;
+    vector<int> visited;
+    for(int i=0;i<N;i++) {
+        visited.push_back(0);
+    }
+    priority_queue<pair<long long int,int>,vector<pair<long long int,int>>,greater<pair<long long int,int>>> pq;
+
+    for(int i=0;i<N;i++) {
+        minNumEdge.push_back(i==0 ? 0 :INF);
+    }
+    pq.push(make_pair(0,0));
+    while (!pq.empty()) {
+        pair<long long int,int> tmp=pq.top();
+        long long int cost=tmp.first;
+        int vertex=tmp.second;
+        pq.pop();
+        if(visited[vertex]==1)
+            continue;
+        visited[vertex]=1;
+
+        minNumEdge[vertex] = min(cost,minNumEdge[vertex]);
+        for (int i = 0; i < (int) vec[vertex].size(); i++) {
+            int v = vec[vertex][i].first;
+            if (visited[v] == 1)
+                continue;
+            long long int c = minNumEdge[vertex] + 1;
+            pq.push(make_pair(c, v));
+        }
+    }
+
+    return minNumEdge[K];
 }
 long long int HelpStudents::fourthStudent() {
     // IMPLEMENT ME!

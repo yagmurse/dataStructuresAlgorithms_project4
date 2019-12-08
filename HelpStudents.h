@@ -20,7 +20,7 @@ public:
     int K;
     int N;
     int M;
-
+    bool isfinish(vector<vector<int>> edge);
     vector<vector<pair<int,int>>> vec;
     // YOU CAN ADD YOUR HELPER FUNCTIONS AND MEMBER FIELDS
 

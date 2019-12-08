@@ -9,7 +9,7 @@ Notes: Anything you want to say about your code that will be helpful in the grad
 #include "HelpStudents.h"
 #include <limits>
 #include <queue>
-#include <stack>
+
 using namespace std;
 const int INF = numeric_limits<int>::max();
 HelpStudents::HelpStudents(int  N, int  M, int K, vector < pair< pair <int,int> , int > > ways) {
@@ -156,49 +156,45 @@ long long int HelpStudents::fourthStudent() {
     for(int i=0;i<N;i++) {
         nodeVisited.push_back(-1);
     }
-
-    priority_queue<pair<long long int,pair<int,int>>,vector<pair<long long int,pair<int,int>>>,greater<pair<long long int,pair<int,int>>>> pq;
-    pq.push(make_pair(0,make_pair(0,0)));
-
+    priority_queue<pair<long long int,int>,vector<pair<long long int,int>>,greater<pair<long long int,int>>> pq;
+    int vertex=0;
+    int prevVer=0;
+    pq.push(make_pair(0,0));
     while (!pq.empty()) {
-        pair<long long int,pair<int,int>> tmp=pq.top();
-        pair<long long int,pair<int,int>> tmp2;
-
-        pq.pop();
-
-        if(tmp.first==pq.top().first &&  tmp.second.first>pq.top().first) {
-                tmp2=tmp;
-                tmp=pq.top();
-                pq.pop();
-                pq.push(tmp2);
-
-        }
-
-        long long int weight=tmp.first;
-        int vertex=tmp.second.first;
-        int prevVer=tmp.second.second;
-
+        vertex=pq.top().second;
         nodeVisited[vertex]=1;
-        totalCost[vertex]+=tmp.first;
         edgeVisited[prevVer][vertex]=1;
+        long long int cost=pq.top().first;
+        pq.pop();
+        totalCost[vertex]+=cost;
+
         for(int i=0;i<(int)vec[vertex].size();i++) {
+            prevVer=vertex;
             int v=vec[vertex][i].first;
-            if(edgeVisited[v][vertex] == 1 || edgeVisited[vertex][v]==1)
+            if(edgeVisited[v][vertex] == 1 || edgeVisited[vertex][v]==1) {
                 continue;
-            long long int c=vec[vertex][i].second;
+            }
+            int c=vec[vertex][i].second;
+            pair<long long int,int> pa=make_pair(c,v);
+            if(pq.empty()) {
+            pq.push(pa); }
+            else if(pq.top().first>pa.first) {
+                pq.pop();
+                pq.push(pa);
+            }
 
-            pq.push(make_pair(c,make_pair(v,vertex)));
-        }
-
+            }
+        if(pq.empty())
+            continue;
 
     }
     return ( nodeVisited[K-1] == -1) ? (-1) : (totalCost[K-1]);
 
-
-
 }
+
 long long int HelpStudents::fifthStudent() {
     // IMPLEMENT ME!
 }
+
 
 // YOU CAN ADD YOUR HELPER FUNCTIONS

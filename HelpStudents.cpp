@@ -141,7 +141,7 @@ long long int HelpStudents::fourthStudent() {
     // IMPLEMENT ME!
     vector<int> nodeVisited;
     vector<vector<int>> edgeVisited;
-    vector<int> totalCost;
+    vector<long long int> totalCost;
     for(int i=0;i<N;i++) {
         totalCost.push_back(0);
     }
@@ -161,6 +161,7 @@ long long int HelpStudents::fourthStudent() {
     int prevVer=0;
     pq.push(make_pair(0,0));
     while (!pq.empty()) {
+        prevVer=vertex;
         vertex=pq.top().second;
         nodeVisited[vertex]=1;
         edgeVisited[prevVer][vertex]=1;
@@ -171,12 +172,11 @@ long long int HelpStudents::fourthStudent() {
         totalCost[vertex]+=cost;
 
         for(int i=0;i<(int)vec[vertex].size();i++) {
-            prevVer=vertex;
             int v=vec[vertex][i].first;
             if(edgeVisited[v][vertex] == 1 || edgeVisited[vertex][v]==1) {
                 continue;
             }
-            int c=vec[vertex][i].second;
+            long long int c=vec[vertex][i].second;
             pair<long long int,int> pa=make_pair(c,v);
             if(pq.empty()) {
             pq.push(pa); }
@@ -186,6 +186,7 @@ long long int HelpStudents::fourthStudent() {
             }
 
             }
+
         if(pq.empty())
             continue;
 
